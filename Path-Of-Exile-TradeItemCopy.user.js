@@ -8,7 +8,7 @@
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js
 // @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.0/clipboard.min.js
-// @version      0.1.0
+// @version      0.1.1
 // @grant        none
 // @downloadURL  https://github.com/hoangstorm/Path-Of-Exile-TradeItemCopy/raw/master/Path-Of-Exile-TradeItemCopy.user.js
 // @updateURL    https://github.com/hoangstorm/Path-Of-Exile-TradeItemCopy/raw/master/Path-Of-Exile-TradeItemCopy.meta.js
@@ -78,9 +78,9 @@ function PoeItem(div) {
             modCount += 1;
         });
 
-        this.htmlDiv.find(".content .craftedMod").each(function () {
-            modCount += 1;
-        });
+        // this.htmlDiv.find(".content .craftedMod").each(function () {
+        //     modCount += 1;
+        // });
 
         return modCount;
     };
@@ -197,25 +197,18 @@ function PoeItem(div) {
 
     this.returnEnchantedMods = function () {
         var itemMods = "";
-        this.htmlDiv.find("ul .mods:not(.withline) li").each(function () {
-            var that = $(this);
-
-            if (that.text().indexOf('enchanted') !== -1) {
-                itemMods += '{crafted}' + that.text().replace("enchanted", "").trim() + '\r\n';
-            }
-
+        this.htmlDiv.find(".content .enchantMod").each(function () {
+            var that = $("span", this);
+            itemMods += '{crafted}' + that.text().trim() + '\r\n';
         });
         return itemMods;
     };
 
     this.returnCraftedMods = function () {
         var craftedItems = "";
-        this.htmlDiv.find("ul .mods:not(.withline) li").each(function () {
-            var that = $(this);
-
-            if (that.text().indexOf('crafted') !== -1) {
-                craftedItems += '{crafted}' + that.text().replace("crafted", "").trim() + '\r\n';
-            }
+        this.htmlDiv.find(".content .craftedMod").each(function () {
+            var that = $("span", this);
+            craftedItems += '{crafted}' + that.text().trim() + '\r\n';
         });
         return craftedItems;
     };
